@@ -44,3 +44,53 @@ union
 select p.model, pr.price
 from product p join printer pr on p.model = pr.model 
 where p.maker = 'B';
+
+--Найдите производителя, выпускающего ПК, но не ноутбуки.
+select distinct p.maker
+from product p 
+where p.type = 'PC' and p.maker not in 
+(select distinct p2.maker from product p2 where p2.type = 'Laptop');
+
+--Найдите производителей ПК с процессором не менее 450 Мгц. Вывести: Maker
+select distinct p.maker
+from product p inner join pc on p.model = pc.model and pc.speed >= 450;
+
+--Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
+select p.model, p.price
+from printer p 
+where p.price = (select max(price) from printer)
+
+--Найдите среднюю скорость ПК.
+select avg(speed) from pc;
+
+--Найдите среднюю скорость ноутбуков, цена которых превышает 1000 дол.
+select avg(speed)
+from laptop where laptop.price::numeric > 1000;
+
+--Найдите среднюю скорость ПК, выпущенных производителем A.
+select avg(speed)
+from product p inner join pc on p.model = pc.model and p.maker = 'A';
+
+--Найдите класс, имя и страну для кораблей из таблицы Ships, имеющих не менее 10 орудий.
+Select s.class, s.name, c.country
+from ships s inner join classes c on s.class = c.class
+where c.numguns >= 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
